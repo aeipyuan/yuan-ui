@@ -1,26 +1,30 @@
-/*  webpack.prod.js */
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.js');
-
+const components = require('./components.json')
 process.env.NODE_ENV = 'production';
+
+const basePath = path.resolve(__dirname, '../')
+let entries = {}
+Object.keys(components).forEach(key => {
+  entries[key] = path.join(basePath, 'src', components[key])
+})
 
 module.exports = merge(webpackBaseConfig, {
   devtool: 'source-map',
   mode: "production",
-  entry: {
-    main: path.resolve(__dirname, '../src/index.js')  // 将src下的index.js 作为入口点
-  },
+  entry: entries,
   output: {
     path: path.resolve(__dirname, '../lib'),
     publicPath: '/lib/',
-    filename: 'yuan-ui.min.js',  // 改成自己的类库名
-    library: 'yuan-ui', // 类库导出
+    filename: '[name].js',
+    chunkFilename: '[id].js',
+    // library: 'lime-ui',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
-  externals: { // 外部化对vue的依赖
+  externals: {
     vue: {
       root: 'Vue',
       commonjs: 'vue',
@@ -34,3 +38,4 @@ module.exports = merge(webpackBaseConfig, {
     })
   ]
 });
+

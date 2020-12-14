@@ -11,14 +11,23 @@ function buildCss(cb) {
     .pipe(sass())
     .pipe(autoprefixer())
     .pipe(cleanCSS())
-    .pipe(rename('lime-ui.css'))
+    .pipe(rename('yuan-ui.css'))
     .pipe(gulp.dest('../lib/styles'));
   cb()
 }
 
-exports.default = gulp.series(buildCss)
 
-作者：罗辑思维前端开发团队
-链接：https://juejin.cn/post/6844903929633849357
-来源：掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+function buildSeperateCss(cb) {
+  Object.keys(components).forEach(compName => {
+    gulp.src(`../src/styles/${compName}.scss`)
+      .pipe(sass())
+      .pipe(autoprefixer())
+      .pipe(cleanCSS())
+      .pipe(rename(`${compName}.css`))
+      .pipe(gulp.dest('../lib/styles'));
+  })
+
+  cb()
+}
+
+exports.default = gulp.series(buildCss, buildSeperateCss) // 加上 buildSeperateCss

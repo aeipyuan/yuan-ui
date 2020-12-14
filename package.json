@@ -1,8 +1,8 @@
 {
-  "name": "yuan-ui",
+  "name": "yuan-ui-2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/yuan-ui.min.js.js",
   "directories": {
     "doc": "docs",
     "lib": "lib",
@@ -12,7 +12,11 @@
     "build:style": "gulp --gulpfile build/gen-style.js",
     "build:prod": "webpack --config build/webpack.prod.js",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "deploy": "gh-pages -d docs/.vuepress/dist",
+    "deploy:build": "npm run docs:build && npm run deploy",
+    "build:components": "webpack --config build/webpack.component.js",
+    "dist": "npm run build:style && npm run build:prod && npm run build:components"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +37,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "2.1.1",
     "file-loader": "^4.2.0",
-    "gh-pages": "^2.1.1",
+    "gh-pages": "^2.2.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.0",
     "gulp-clean-css": "^4.2.0",

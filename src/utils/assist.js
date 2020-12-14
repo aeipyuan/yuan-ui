@@ -1,6 +1,3 @@
 export function oneOf(value, valueList) {
-  for (let i = 0; i < valueList.length; i++) {
-    if (value === valueList) return true;
-  }
-  return false;
+  return valueList.includes(value)
 }

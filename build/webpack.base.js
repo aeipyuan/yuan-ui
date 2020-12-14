@@ -1,5 +1,12 @@
+/* webpack.base.js */
 const path = require('path');
 const webpack = require('webpack');
+const pkg = require('../package.json');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
+function resolve(dir) {
+  return path.join(__dirname, '..', dir);
+}
 
 module.exports = {
   module: {
@@ -87,14 +94,14 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'vue': 'vue/dist/vue.esm.js',
-      '@': this.resolve('src')
+      '@': resolve('src')
     }
   },
-  plugins: {
+  plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
       'process.env.VERSION': `'${pkg.version}'`
     }),
     new VueLoaderPlugin()
-  }
+  ]
 }
